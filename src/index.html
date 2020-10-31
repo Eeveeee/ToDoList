@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="img/icon" href="favicon.ico" />
+    <title>ToDo</title>
+  </head>
+  <body>
+    <div class="background">
+      <div class="wrapper">
+        <header class="header">
+          <div class="container">
+            <div class="header-wrapper">
+              <button class="button button-add"></button>
+            </div>
+          </div>
+        </header>
+        <div class="card-creator modal-creator">
+          <form class="card-creator-form" action="#">
+            <input
+              class="card-creator-name"
+              type="text"
+              placeholder="Введите название карточки"
+            />
+            <textarea
+              class="card-creator-text"
+              type="text"
+              placeholder="Введите содержание карточки"
+            ></textarea>
+            <button class="button button-create">Добавить карточку</button>
+          </form>
+        </div>
+        <div class="container cards-container">
+          <div class="empty-cover">Создайте карточку!</div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

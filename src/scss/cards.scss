@@ -1,0 +1,82 @@
+.cards-container {
+  max-width: 1900px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: flex-end;
+  transition: flex 0.3s ease;
+}
+.empty-cover {
+  padding: 15px;
+  background: rgba(0, 0, 0, 40%);
+  text-align: center;
+  font-size: 62px;
+  color: white;
+  width: 100%;
+}
+.card {
+  transition: 0.3s;
+  margin-right: 30px;
+  &:first-child {
+    margin-right: 0;
+  }
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  position: relative;
+  border-radius: 5px;
+  padding: 6px;
+  height: 400px;
+  width: 300px;
+  background: rgba(0, 0, 0, 40%);
+  &-creator {
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    left: -9999px;
+    transition: 0.5s;
+    z-index: 1020;
+    background: rgba(0, 0, 0, 0.5);
+    &-form {
+      padding: 10px;
+      border-radius: 3px;
+      background: rgba(0, 0, 0, 40%);
+      z-index: 1021;
+      margin: 250px auto 0 auto;
+      width: 250px;
+      display: flex;
+      flex-direction: column;
+      textarea,
+      input {
+        border-radius: 3px;
+        resize: none;
+        background: rgba(white, 20%);
+        &::placeholder {
+          color: darken(white, 0.1);
+        }
+      }
+      textarea {
+        height: 200px;
+        margin-bottom: 15px;
+      }
+    }
+    &.active {
+      transition: 0.5s;
+      left: 0;
+    }
+    &-name {
+      margin-bottom: 5px;
+    }
+  }
+  &-name {
+    min-height: 40px;
+  }
+  &-name,
+  &-text {
+    overflow-y: auto;
+    width: 90%;
+    margin-bottom: 15px;
+    background: rgba(0, 0, 0, 40%);
+  }
+}

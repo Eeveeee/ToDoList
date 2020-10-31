@@ -1,0 +1,56 @@
+body {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  font-family: "Nunito", sans-serif;
+  color: pink;
+}
+img {
+  max-width: 100%;
+}
+
+.button {
+  padding: 0;
+  border: none;
+  outline: none !important;
+  user-select: none !important;
+}
+
+input,
+textarea {
+  border: none;
+  padding: 3px;
+}
+
+.container {
+  margin: 0 auto;
+  max-width: 1900px;
+  z-index: 3;
+}
+
+a {
+  color: $text-color-light !important;
+
+  &:hover {
+    color: $text-color-light !important;
+    text-decoration: none !important;
+  }
+}
+img {
+  user-select: none;
+}
+input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  color: white;
+}
+label {
+  cursor: pointer;
+  span {
+    user-select: none;
+  }
+  input {
+    cursor: inherit;
+  }
+}

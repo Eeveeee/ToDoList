@@ -1,0 +1,59 @@
+.button {
+  cursor: pointer;
+  width: 90px;
+  height: 90px;
+  &-create {
+    border-radius: 3px;
+    padding: 6px 0;
+    width: auto;
+    height: auto;
+    background: rgba(white, 20%);
+    color: white;
+  }
+  &-remove {
+    z-index: 1021;
+    transition: 0.2s;
+    background: url("../img/header/trash.png") center no-repeat;
+    &:hover {
+      transform: scale(0.97);
+    }
+  }
+  &-add {
+    z-index: 1021;
+    transition: 0.2s;
+    background: url("../img/header/plus-btn.png") center no-repeat;
+    &:hover {
+      transform: scale(0.95);
+    }
+    &.active {
+      transform: rotate(45deg);
+    }
+  }
+  &-delete {
+    margin-bottom: 10px;
+    border-radius: 50%;
+    position: relative;
+    width: 30px;
+    height: 30px;
+    align-self: flex-end;
+    background: transparent;
+    span {
+      transform: rotate(-135deg);
+    }
+    span,
+    span::after {
+      transition: 0.3s;
+      position: absolute;
+      display: block;
+      height: 2px;
+      width: 100%;
+      top: 50%;
+      left: 0;
+      background: rgba(255, 255, 255, 80%);
+    }
+    span::after {
+      content: "";
+      transform: rotate(90deg);
+    }
+  }
+}
