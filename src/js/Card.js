@@ -28,39 +28,39 @@ export default class Card {
     }
     this.cardsArr.forEach((card) => {
       let cardTemplate = `
-      <div class="card" data-id="${card.id}">
-      <button class="button button-delete"><span></span></button>
+      <div class="card" draggable="true" data-id="${card.id}">
       <div class="card-name">${card.name}</div>
       <div class="card-text">${card.text}</div>
       </div>
       `
       this.cardsContainer.insertAdjacentHTML('afterbegin', cardTemplate)
-      const cardRemoveBtn = document.querySelectorAll('.button-delete')
-      cardRemoveBtn.forEach((button) => {
-        button.addEventListener('click', (e) => {
-          e.preventDefault()
-          this.remove(button)
-        })
-      })
     })
   }
 
-  remove(button) {
-    const currentCard = button.closest('.card')
-    const currentCardID = currentCard.dataset.id
-    this.cardsArr.forEach((card, index) => {
-      if (currentCardID == card.id) {
-        this.cardsArr.splice(index, 1)
-      }
+  remove(removeBtn) {
+    const cards = document.querySelectorAll('.card')
+    cards.forEach((card) => {
+      card.addEventListener('dragstart', () => {
+        removeBtn.addEventListener('dragover', () => {
+          this.cardsArr.forEach((arrCard, index) => {
+            console.log(
+              'htmlID = ',
+              card.dataset.id,
+              '  ArrID =',
+              arrCard.id,
+              '  Arr=',
+              this.cardsArr
+            )
+            if (`${arrCard.id}` === card.dataset.id) {
+              this.cardsArr.splice(index, 1)
+              localStorage.setItem('cardsArr', JSON.stringify(this.cardsArr))
+              this.cardsContainer.innerHTML = `<div class="empty-cover">Создайте карточку!</div>`
+            }
+          })
+          this.render()
+          this.remove(removeBtn)
+        })
+      })
     })
-    currentCard.style.marginTop = '-100px'
-    setTimeout(() => {
-      localStorage.setItem('cardsArr', JSON.stringify(this.cardsArr))
-      this.render()
-      if (!this.cardsArr.length) {
-        this.cardsContainer.innerHTML = `<div class="empty-cover">Создайте карточку!</div>
-        `
-      }
-    }, 300)
   }
 }

@@ -1,5 +1,5 @@
 import '../src/scss/index.scss'
-import Card from '../src/js/class-card.js'
+import Card from './js/Card.js'
 const btnAdd = document.querySelector('.button-add')
 const modalCreator = document.querySelector('.modal-creator')
 
@@ -10,7 +10,7 @@ const cardCreatorForm = document.querySelector('.card-creator-form'),
 
 const cardsContainer = document.querySelector('.cards-container')
 const cardsArr = JSON.parse(localStorage.getItem('cardsArr')) || []
-
+const btnRemove = document.querySelector('.button-remove')
 const card = new Card(
   cardsContainer,
   cardsArr,
@@ -18,6 +18,7 @@ const card = new Card(
   cardCreatorText
 )
 card.render()
+card.remove(btnRemove)
 btnAdd.addEventListener('click', (e) => {
   e.preventDefault()
   modalCreator.classList.toggle('active')
@@ -30,4 +31,5 @@ cardCreatorBtn.addEventListener('click', (e) => {
   btnAdd.classList.toggle('active')
   card.create()
   card.render()
+  card.remove(btnRemove)
 })
