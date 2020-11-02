@@ -12,16 +12,20 @@ export default class Card {
       name: '',
       text: '',
     }
-    let currentCardId = 0
 
     currentCard.id = Date.now() + 1
     currentCard.name = this.formName.value
     currentCard.text = this.formText.value
     this.cardsArr.push(currentCard)
+    localStorage.setItem('cardsArr', JSON.stringify(this.cardsArr))
   }
 
   render() {
     this.cardsContainer.innerHTML = ''
+    if (!this.cardsArr.length) {
+      this.cardsContainer.innerHTML = `          <div class="empty-cover">Создайте карточку!</div>
+      `
+    }
     this.cardsArr.forEach((card) => {
       let cardTemplate = `
       <div class="card" data-id="${card.id}">
@@ -30,9 +34,8 @@ export default class Card {
       <div class="card-text">${card.text}</div>
       </div>
       `
-      this.cardsContainer.insertAdjacentHTML('afterBegin', cardTemplate)
+      this.cardsContainer.insertAdjacentHTML('afterbegin', cardTemplate)
       const cardRemoveBtn = document.querySelectorAll('.button-delete')
-
       cardRemoveBtn.forEach((button) => {
         button.addEventListener('click', (e) => {
           e.preventDefault()
@@ -52,6 +55,7 @@ export default class Card {
     })
     currentCard.style.marginTop = '-100px'
     setTimeout(() => {
+      localStorage.setItem('cardsArr', JSON.stringify(this.cardsArr))
       this.render()
       if (!this.cardsArr.length) {
         this.cardsContainer.innerHTML = `<div class="empty-cover">Создайте карточку!</div>

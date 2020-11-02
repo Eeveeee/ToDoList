@@ -9,8 +9,15 @@ const cardCreatorForm = document.querySelector('.card-creator-form'),
   cardCreatorBtn = document.querySelector('.button-create')
 
 const cardsContainer = document.querySelector('.cards-container')
-const cardsArr = []
+const cardsArr = JSON.parse(localStorage.getItem('cardsArr')) || []
 
+const card = new Card(
+  cardsContainer,
+  cardsArr,
+  cardCreatorName,
+  cardCreatorText
+)
+card.render()
 btnAdd.addEventListener('click', (e) => {
   e.preventDefault()
   modalCreator.classList.toggle('active')
@@ -21,13 +28,6 @@ cardCreatorBtn.addEventListener('click', (e) => {
   e.preventDefault()
   modalCreator.classList.toggle('active')
   btnAdd.classList.toggle('active')
-
-  const card = new Card(
-    cardsContainer,
-    cardsArr,
-    cardCreatorName,
-    cardCreatorText
-  )
   card.create()
   card.render()
 })
