@@ -1,6 +1,6 @@
 .cards-container {
   overflow-x: auto;
-  max-width: 1850px;
+  max-width: 1900px;
   margin: 0 auto;
   display: flex;
   padding: 10px;
@@ -21,7 +21,6 @@
   display: flex;
   align-items: center;
   flex-direction: column;
-  position: relative;
   border-radius: 5px;
   padding: 6px;
   height: 400px;
@@ -34,7 +33,7 @@
     height: 100vh;
     top: 0;
     left: -9999px;
-    transition: 0.5s;
+    transition: 0.3s;
     z-index: 1020;
     background: rgba(0, 0, 0, 0.5);
     &-form {
@@ -61,7 +60,7 @@
       }
     }
     &.active {
-      transition: 0.5s;
+      transition: 0.3s;
       left: 0;
     }
     &-name {

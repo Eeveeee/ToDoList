@@ -15,10 +15,10 @@ const card = new Card(
   cardsContainer,
   cardsArr,
   cardCreatorName,
-  cardCreatorText
+  cardCreatorText,
+  btnRemove
 )
 card.render()
-card.remove(btnRemove)
 btnAdd.addEventListener('click', (e) => {
   e.preventDefault()
   modalCreator.classList.toggle('active')
@@ -31,5 +31,4 @@ cardCreatorBtn.addEventListener('click', (e) => {
   btnAdd.classList.toggle('active')
   card.create()
   card.render()
-  card.remove(btnRemove)
 })
