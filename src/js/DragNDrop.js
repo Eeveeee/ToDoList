@@ -8,8 +8,18 @@ export default class DragNDrop extends Card {
     this.removeBtn = removeBtn
     this.takenCard = null
   }
+
+  setDrag(e) {
+    e.target.setAttribute('draggable', true)
+  }
+  unsetDrag(e) {
+    e.target.removeAttribute('draggable')
+  }
   addListeners() {
     const cardsInContainer = document.querySelectorAll('.card')
+    cardsInContainer.forEach((card) => {
+      card.addEventListener('mousedown', this.setDrag)
+    })
     if (cardsInContainer.length > 0) {
       cardsInContainer.forEach((card) => {
         card.addEventListener('dragstart', this.dragStart.bind(this))
@@ -20,7 +30,6 @@ export default class DragNDrop extends Card {
       this.removeBtn.addEventListener('drop', this.dragDrop.bind(this))
     }
   }
-
   dragStart(e) {
     this.takenCard = e.target
     setTimeout(() => {

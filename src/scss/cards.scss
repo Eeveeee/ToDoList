@@ -3,7 +3,6 @@
   max-width: 1900px;
   margin: 0 auto;
   display: flex;
-  padding: 10px;
 }
 .empty-cover {
   padding: 15px;
@@ -22,7 +21,7 @@
   align-items: center;
   flex-direction: column;
   border-radius: 5px;
-  padding: 6px;
+  padding: 15px 10px 10px 6px;
   height: 400px;
   width: 300px;
   min-width: 300px;
@@ -68,13 +67,17 @@
     }
   }
   &-name {
-    min-height: 40px;
+    min-height: 30px;
   }
   &-name,
   &-text {
     overflow-y: auto;
     width: 90%;
     margin-bottom: 15px;
-    background: rgba(0, 0, 0, 40%);
+    background: rgba(255, 255, 255, 40%);
+    resize: none;
+  }
+  &-text {
+    height: 80%;
   }
 }

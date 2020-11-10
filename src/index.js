@@ -13,7 +13,6 @@ const cardCreatorForm = document.querySelector('.card-creator-form'),
 const cardsContainer = document.querySelector('.cards-container')
 const cardsArr = JSON.parse(localStorage.getItem('cardsArr')) || []
 const removeBtn = document.querySelector('.button-remove')
-// const card = new Card()
 const dragNDrop = new DragNDrop(
   cardsContainer,
   cardsArr,
@@ -24,6 +23,7 @@ const dragNDrop = new DragNDrop(
 
 dragNDrop.render()
 dragNDrop.addListeners()
+dragNDrop.addEditListeners()
 btnAdd.addEventListener('click', (e) => {
   e.preventDefault()
   modalCreator.classList.toggle('active')
@@ -37,4 +37,5 @@ cardCreatorBtn.addEventListener('click', (e) => {
   dragNDrop.create()
   dragNDrop.render()
   dragNDrop.addListeners()
+  dragNDrop.addEditListeners()
 })

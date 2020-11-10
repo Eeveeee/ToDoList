@@ -29,4 +29,11 @@
       transform: rotate(45deg);
     }
   }
+  &-edit {
+    width: 30px;
+    height: 30px;
+    margin-bottom: 10px;
+    background: url(../img/cards/edit.svg);
+    align-self: flex-end;
+  }
 }

@@ -28,10 +28,10 @@ export default class Card {
       `
     }
     this.cardsArr.forEach((card) => {
-      let cardTemplate = `
-      <div class="card" draggable="true" data-id="${card.id}">
-      <div class="card-name">${card.name}</div>
-      <div class="card-text">${card.text}</div>
+      let cardTemplate = /*html*/ `
+      <div class="card" data-id="${card.id}">
+      <textarea draggable="true" class="card-name">${card.name}</textarea>
+      <textarea draggable="true" class="card-text">${card.text}</textarea>
       </div>
       `
       this.cardsContainer.insertAdjacentHTML('afterbegin', cardTemplate)
@@ -45,6 +45,41 @@ export default class Card {
         localStorage.setItem('cardsArr', JSON.stringify(this.cardsArr))
         this.cardsContainer.innerHTML = `<div class="empty-cover">Создайте карточку!</div>`
       }
+    })
+  }
+
+  addEditListeners() {
+    const cardNames = document.querySelectorAll('.card-name')
+    const cardTexts = document.querySelectorAll('.card-text')
+    cardNames.forEach((cardName) => {
+      cardName.addEventListener('mousedown', this.edit.bind(this))
+    })
+    cardTexts.forEach((cardText) => {
+      cardText.addEventListener('mousedown', this.edit.bind(this))
+    })
+  }
+  edit(e) {
+    const cardItem = e.target
+    const card = cardItem.closest('.card')
+    e.stopPropagation()
+    const cardID = card.dataset.id
+    card.removeAttribute('draggable')
+    cardItem.removeAttribute('draggable')
+    cardItem.addEventListener('keypress', () => {
+      if (cardItem.classList.contains('card-name')) {
+        this.cardsArr.forEach((card) => {
+          if (`${card.id}` === cardID) {
+            card.name = cardItem.value
+          }
+        })
+      } else {
+        this.cardsArr.forEach((card) => {
+          if (`${card.id}` === cardID) {
+            card.text = cardItem.value
+          }
+        })
+      }
+      localStorage.setItem('cardsArr', JSON.stringify(this.cardsArr))
     })
   }
 }
