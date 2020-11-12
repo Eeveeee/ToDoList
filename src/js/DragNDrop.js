@@ -1,14 +1,16 @@
-import Card from '../js/Card'
+import card from '../js/Card'
 
-export default class DragNDrop extends Card {
-  constructor(cardsContainer, cardsArr, formName, formText, removeBtn) {
-    super(cardsContainer, cardsArr, formName, formText, removeBtn)
+class DragNDrop {
+  constructor() {
+    this.takenCard = null
+    this.cardsArr = null
+    this.removeBtn = null
+  }
+  init(cardsContainer, cardsArr, removeBtn) {
     this.cardsContainer = cardsContainer
     this.cardsArr = cardsArr
     this.removeBtn = removeBtn
-    this.takenCard = null
   }
-
   setDrag(e) {
     e.target.setAttribute('draggable', true)
   }
@@ -31,13 +33,16 @@ export default class DragNDrop extends Card {
     }
   }
   dragStart(e) {
+    e.stopPropagation()
     this.takenCard = e.target
     setTimeout(() => {
       this.takenCard.style.display = 'none'
     }, 0)
   }
   dragEnd() {
-    this.takenCard.style.display = 'flex'
+    if (this.takenCard) {
+      this.takenCard.style.display = 'flex'
+    }
   }
   dragLeave(e) {
     e.preventDefault()
@@ -52,8 +57,10 @@ export default class DragNDrop extends Card {
   dragDrop() {
     this.removeBtn.style.background = `url("../src/img/header/trash.svg") center no-repeat`
     this.removeBtn.style.backgroundSize = 'contain'
-    this.delete(this.takenCard)
-    this.render()
+    card.delete(this.takenCard)
+    card.render()
     this.addListeners()
   }
 }
+const dragNDrop = new DragNDrop()
+export default dragNDrop

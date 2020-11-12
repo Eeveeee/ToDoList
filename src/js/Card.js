@@ -1,10 +1,17 @@
-export default class Card {
-  constructor(cardsContainer, cardsArr, formName, formText, removeBtn) {
+class Card {
+  constructor() {
+    this.cardsContainer = null
+    this.cardsArr = null
+    this.formName = null
+    this.formText = null
+    console.log(this.formName)
+  }
+
+  init(cardsContainer, cardsArr, formName, formText) {
     this.cardsContainer = cardsContainer
     this.cardsArr = cardsArr
     this.formName = formName
     this.formText = formText
-    this.removeBtn = removeBtn
   }
 
   create() {
@@ -53,10 +60,15 @@ export default class Card {
     const cardTexts = document.querySelectorAll('.card-text')
     cardNames.forEach((cardName) => {
       cardName.addEventListener('mousedown', this.edit.bind(this))
+      cardName.addEventListener('dragstart', this.dragBreak)
     })
     cardTexts.forEach((cardText) => {
       cardText.addEventListener('mousedown', this.edit.bind(this))
+      cardText.addEventListener('dragstart', this.dragBreak)
     })
+  }
+  dragBreak(e) {
+    e.stopPropagation()
   }
   edit(e) {
     const cardItem = e.target
@@ -83,3 +95,7 @@ export default class Card {
     })
   }
 }
+
+const card = new Card()
+
+export default card
