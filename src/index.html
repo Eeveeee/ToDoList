@@ -19,17 +19,15 @@
         </header>
         <div class="card-creator modal-creator">
           <form class="card-creator-form" action="#">
-            <input
-              class="card-creator-name"
-              type="text"
-              placeholder="Введите название карточки"
-            />
-            <textarea
-              class="card-creator-text"
-              type="text"
-              placeholder="Введите содержание карточки"
-            ></textarea>
-            <button class="button button-create">Добавить карточку</button>
+            <div class="card-tasks-container">
+              <textarea
+                class="card-creator-text"
+                type="text"
+                placeholder="Введите задачу"
+              ></textarea>
+            </div>
+            <button class="button button-add-subtask">Добавить подпункт</button>
+            <button class="button button-create">Создать карточку</button>
           </form>
         </div>
         <div class="container cards-container"></div>

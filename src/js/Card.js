@@ -4,26 +4,65 @@ class Card {
     this.cardsArr = null
     this.formName = null
     this.formText = null
-    console.log(this.formName)
   }
 
-  init(cardsContainer, cardsArr, formName, formText) {
+  init(cardsContainer, cardsArr, formText, tasksContainer) {
     this.cardsContainer = cardsContainer
     this.cardsArr = cardsArr
-    this.formName = formName
     this.formText = formText
+    this.tasksContainer = tasksContainer
+  }
+
+  subtasksCreatorManager() {
+    this.tasksContainer.insertAdjacentHTML(
+      'beforeend',
+      `
+                    <div class="subtask-wrapper">
+                    <button class="button button-remove-subtask"></button>
+
+                      <textarea
+      class="card-creator-subtask"
+      type="text"
+      placeholder="Введите подпункт"
+    ></textarea>
+                    </div>
+  `
+    )
+    let deleteButtons = this.tasksContainer.querySelectorAll(
+      '.button-remove-subtask'
+    )
+    deleteButtons.forEach((button) => {
+      button.addEventListener('click', (e) => {
+        e.preventDefault()
+        let container = e.target.closest('.subtask-wrapper')
+        container.style.width = '90%'
+        setTimeout(() => {
+          container.remove()
+        }, 200)
+      })
+    })
   }
 
   create() {
-    let currentCard = {
+    const currentCard = {
       id: '',
-      name: '',
-      text: '',
+      task: '',
+    }
+    currentCard.id = `f${(+new Date()).toString(16)}`
+    currentCard.task = this.formText.value
+
+    const subTasks = this.tasksContainer.querySelectorAll(
+      '.card-creator-subtask'
+    )
+    if (subTasks !== undefined) {
+      subTasks.forEach((subTask) => {
+        currentCard[`f${(+new Date()).toString(16)}`] = {
+          subtaskText: `${subTask.value}`,
+          state: false,
+        }
+      })
     }
 
-    currentCard.id = Date.now() + 1
-    currentCard.name = this.formName.value
-    currentCard.text = this.formText.value
     this.cardsArr.push(currentCard)
     localStorage.setItem('cardsArr', JSON.stringify(this.cardsArr))
   }
@@ -37,8 +76,7 @@ class Card {
     this.cardsArr.forEach((card) => {
       let cardTemplate = /*html*/ `
       <div class="card" data-id="${card.id}">
-      <textarea draggable="true" class="card-name">${card.name}</textarea>
-      <textarea draggable="true" class="card-text">${card.text}</textarea>
+      <textarea draggable="true" class="card-text">${card.task}</textarea>
       </div>
       `
       this.cardsContainer.insertAdjacentHTML('afterbegin', cardTemplate)
@@ -54,7 +92,6 @@ class Card {
       }
     })
   }
-
   addEditListeners() {
     const cardNames = document.querySelectorAll('.card-name')
     const cardTexts = document.querySelectorAll('.card-text')
@@ -78,19 +115,11 @@ class Card {
     card.removeAttribute('draggable')
     cardItem.removeAttribute('draggable')
     cardItem.addEventListener('keypress', () => {
-      if (cardItem.classList.contains('card-name')) {
-        this.cardsArr.forEach((card) => {
-          if (`${card.id}` === cardID) {
-            card.name = cardItem.value
-          }
-        })
-      } else {
-        this.cardsArr.forEach((card) => {
-          if (`${card.id}` === cardID) {
-            card.text = cardItem.value
-          }
-        })
-      }
+      this.cardsArr.forEach((card) => {
+        if (`${card.id}` === cardID) {
+          card.task = cardItem.value
+        }
+      })
       localStorage.setItem('cardsArr', JSON.stringify(this.cardsArr))
     })
   }

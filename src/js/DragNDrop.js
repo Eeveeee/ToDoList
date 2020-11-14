@@ -60,6 +60,7 @@ class DragNDrop {
     card.delete(this.takenCard)
     card.render()
     this.addListeners()
+    card.addEditListeners()
   }
 }
 const dragNDrop = new DragNDrop()

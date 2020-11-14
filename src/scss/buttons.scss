@@ -8,7 +8,7 @@
   }
   &-create {
     border-radius: 3px;
-    padding: 6px 0;
+    padding: 10px 30px;
     width: auto;
     height: auto;
     background: rgba(white, 20%);
@@ -20,6 +20,13 @@
     z-index: 1019;
     cursor: default;
   }
+  &-remove-subtask {
+    z-index: 1019;
+    background: url("../img/cards/delete.svg") center no-repeat;
+    background-size: cover;
+    width: 35px;
+    height: 35px;
+  }
   &-add {
     background: url("../img/header/plus.svg") center no-repeat;
     background-size: contain;
@@ -27,6 +34,15 @@
     transition: 0.2s;
     &.active {
       transform: rotate(45deg);
+    }
+    &-subtask {
+      border-radius: 3px;
+      padding: 6px 10px;
+      width: auto;
+      height: auto;
+      background: rgba(white, 20%);
+      color: white;
+      margin-bottom: 10px;
     }
   }
   &-edit {
