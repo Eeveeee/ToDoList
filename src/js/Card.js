@@ -4,6 +4,7 @@ class Card {
     this.cardsArr = null
     this.formName = null
     this.formText = null
+    this.currentCard = null
   }
 
   init(cardsContainer, cardsArr, formText, tasksContainer) {
@@ -32,7 +33,7 @@ class Card {
       '.button-remove-subtask'
     )
     deleteButtons.forEach((button) => {
-      button.addEventListener('click', (e) => {
+      this.onListener('click', button, (e) => {
         e.preventDefault()
         let container = e.target.closest('.subtask-wrapper')
         container.style.width = '90%'
@@ -44,27 +45,49 @@ class Card {
   }
 
   create() {
-    const currentCard = {
-      id: '',
-      task: '',
+    this.currentCard = {
+      id: `f${(+new Date()).toString(16)}`,
+      task: `${this.formText.value}`,
     }
-    currentCard.id = `f${(+new Date()).toString(16)}`
-    currentCard.task = this.formText.value
 
-    const subTasks = this.tasksContainer.querySelectorAll(
-      '.card-creator-subtask'
-    )
+    let subTasks = this.tasksContainer.querySelectorAll('.card-creator-subtask')
     if (subTasks !== undefined) {
-      subTasks.forEach((subTask) => {
-        currentCard[`f${(+new Date()).toString(16)}`] = {
+      subTasks.forEach((subTask, index) => {
+        this.currentCard[`${index + 1}`] = {
           subtaskText: `${subTask.value}`,
           state: false,
         }
       })
     }
+    this.cardsArr.push(this.currentCard)
 
-    this.cardsArr.push(currentCard)
     localStorage.setItem('cardsArr', JSON.stringify(this.cardsArr))
+  }
+
+  generateHTML(card) {
+    let stateClass = ``
+    let isChecked = ``
+    let html = `
+
+    `
+    Object.keys(card).forEach((key) => {
+      if (card[key] instanceof Object) {
+        if (card[key].state === 'true') {
+          stateClass = 'active'
+          isChecked = 'checked'
+        } else {
+          stateClass = ''
+          isChecked = ''
+        }
+        html += `<div  class='card-subtask ${stateClass}'>
+          <input ${isChecked} class="subtask-checkbox" type="checkbox">
+          <textarea data-number="${key}" draggable="true" class="card-subtask-text">${card[key].subtaskText}</textarea>
+          <button class="button-card-remove-subtask"></button>
+          </div>
+          `
+      }
+    })
+    return html
   }
 
   render() {
@@ -77,6 +100,7 @@ class Card {
       let cardTemplate = /*html*/ `
       <div class="card" data-id="${card.id}">
       <textarea draggable="true" class="card-text">${card.task}</textarea>
+      ${this.generateHTML(card)}
       </div>
       `
       this.cardsContainer.insertAdjacentHTML('afterbegin', cardTemplate)
@@ -92,20 +116,70 @@ class Card {
       }
     })
   }
-  addEditListeners() {
-    const cardNames = document.querySelectorAll('.card-name')
-    const cardTexts = document.querySelectorAll('.card-text')
-    cardNames.forEach((cardName) => {
-      cardName.addEventListener('mousedown', this.edit.bind(this))
-      cardName.addEventListener('dragstart', this.dragBreak)
-    })
-    cardTexts.forEach((cardText) => {
-      cardText.addEventListener('mousedown', this.edit.bind(this))
-      cardText.addEventListener('dragstart', this.dragBreak)
+
+  checkboxes(e) {
+    const checkbox = e.target
+    const checkboxWrapper = checkbox.closest('.card-subtask')
+    const cardID = checkbox.closest('.card').dataset.id
+    const subtaskNum = checkboxWrapper.querySelector('.card-subtask-text')
+      .dataset.number
+    this.cardsArr.forEach((card) => {
+      if (card.id === cardID) {
+        if (checkbox.checked) {
+          card[subtaskNum].state = 'true'
+        } else {
+          card[subtaskNum].state = 'false'
+        }
+        localStorage.setItem('cardsArr', JSON.stringify(this.cardsArr))
+      }
     })
   }
-  dragBreak(e) {
-    e.stopPropagation()
+  deleteSubtask(e) {
+    const subtaskWrapper = e.target.closest('.card-subtask')
+    const cardID = e.target.closest('.card').dataset.id
+    const subtask = subtaskWrapper.querySelector('.card-subtask-text')
+    const subtaskNum = subtask.dataset.number
+    this.cardsArr.forEach((card) => {
+      if (card.id === cardID) {
+        delete card[subtaskNum]
+        localStorage.setItem('cardsArr', JSON.stringify(this.cardsArr))
+      }
+    })
+    subtaskWrapper.remove()
+  }
+
+  addEditListeners() {
+    const cards = document.querySelectorAll('.card')
+    cards.forEach((card) => {
+      Array.from(card.children, (child, i) => {
+        this.dragBreak(child)
+        if (child.classList.contains('card-text')) {
+          this.onListener('mousedown', child, this.edit)
+        } else if (child.classList.contains('card-subtask')) {
+          Array.from(child.children, (subtaskChild, e) => {
+            this.dragBreak(subtaskChild)
+            if (subtaskChild.classList.contains('card-subtask-text')) {
+              this.onListener('mousedown', subtaskChild, this.edit)
+            } else if (
+              subtaskChild.classList.contains('button-card-remove-subtask')
+            ) {
+              this.onListener('click', subtaskChild, this.deleteSubtask)
+            } else {
+              this.onListener('click', subtaskChild, this.checkboxes)
+            }
+          })
+        }
+      })
+    })
+  }
+
+  onListener(listener, classes, callback) {
+    classes.addEventListener(listener, callback.bind(this))
+  }
+  dragBreak(classes) {
+    classes.addEventListener('dragstart', (e) => {
+      e.stopPropagation()
+    })
   }
   edit(e) {
     const cardItem = e.target
@@ -117,7 +191,12 @@ class Card {
     cardItem.addEventListener('keypress', () => {
       this.cardsArr.forEach((card) => {
         if (`${card.id}` === cardID) {
-          card.task = cardItem.value
+          if (cardItem.dataset.number) {
+            let num = cardItem.dataset.number
+            card[num].subtaskText = cardItem.value
+          } else {
+            card.task = cardItem.value
+          }
         }
       })
       localStorage.setItem('cardsArr', JSON.stringify(this.cardsArr))

@@ -21,7 +21,7 @@
   align-items: center;
   flex-direction: column;
   border-radius: 5px;
-  padding: 15px 10px 0 10px;
+  padding: 15px 10px 10px 10px;
   height: auto;
   max-height: 400px;
   width: 300px;
@@ -35,7 +35,31 @@
     overflow-y: auto;
     margin-bottom: 15px;
   }
-
+  &-text,
+  &-subtask-text {
+    overflow-y: auto;
+    width: 90%;
+    margin-bottom: 15px;
+    background: rgba(255, 255, 255, 40%);
+    resize: none;
+  }
+  &-subtask {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    &-text {
+      max-height: 35px;
+      min-height: 35px;
+    }
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+  &-subtask-text {
+    margin-left: 5px;
+    width: 90%;
+    margin-bottom: 0;
+  }
   &-creator {
     position: absolute;
     width: 100vw;
@@ -94,20 +118,5 @@
       transition: 0.3s;
       left: 0;
     }
-
-    &-name {
-      margin-bottom: 5px;
-    }
-  }
-  &-name {
-    min-height: 30px;
-  }
-  &-name,
-  &-text {
-    overflow-y: auto;
-    width: 90%;
-    margin-bottom: 15px;
-    background: rgba(255, 255, 255, 40%);
-    resize: none;
   }
 }

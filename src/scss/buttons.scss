@@ -20,12 +20,15 @@
     z-index: 1019;
     cursor: default;
   }
-  &-remove-subtask {
+  &-remove-subtask,
+  &-card-remove-subtask {
     z-index: 1019;
     background: url("../img/cards/delete.svg") center no-repeat;
     background-size: cover;
     width: 35px;
     height: 35px;
+    border: none;
+    cursor: pointer;
   }
   &-add {
     background: url("../img/header/plus.svg") center no-repeat;
