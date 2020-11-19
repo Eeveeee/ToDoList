@@ -10,7 +10,6 @@ const cardCreatorForm = document.querySelector('.card-creator-form'),
   cardCreatorText = document.querySelector('.card-creator-text'),
   cardCreatorBtn = document.querySelector('.button-create'),
   cardSubtaskBtn = document.querySelector('.button-add-subtask')
-
 const cardsContainer = document.querySelector('.cards-container')
 const tasksContainer = document.querySelector('.card-tasks-container')
 const cardsArr = JSON.parse(localStorage.getItem('cardsArr')) || []
@@ -21,6 +20,8 @@ dragNDrop.init(cardsContainer, cardsArr, removeBtn)
 card.render()
 dragNDrop.addListeners()
 card.addEditListeners()
+card.subtaskGenerator()
+
 btnAdd.addEventListener('click', (e) => {
   e.preventDefault()
   modalCreator.classList.toggle('active')
@@ -40,4 +41,5 @@ cardCreatorBtn.addEventListener('click', (e) => {
   card.render()
   dragNDrop.addListeners()
   card.addEditListeners()
+  card.subtaskGenerator()
 })

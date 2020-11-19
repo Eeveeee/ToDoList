@@ -38,7 +38,8 @@
     &.active {
       transform: rotate(45deg);
     }
-    &-subtask {
+    &-subtask,
+    &-card-subtask {
       border-radius: 3px;
       padding: 6px 10px;
       width: auto;

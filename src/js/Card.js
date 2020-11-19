@@ -79,10 +79,10 @@ class Card {
           stateClass = ''
           isChecked = ''
         }
-        html += `<div  class='card-subtask ${stateClass}'>
-          <input ${isChecked} class="subtask-checkbox" type="checkbox">
+        html += `<div draggable="true"  class='card-subtask ${stateClass}'>
+          <input draggable="true" ${isChecked} class="subtask-checkbox" type="checkbox">
           <textarea data-number="${key}" draggable="true" class="card-subtask-text">${card[key].subtaskText}</textarea>
-          <button class="button-card-remove-subtask"></button>
+          <button draggable="true" class="button-card-remove-subtask"></button>
           </div>
           `
       }
@@ -97,10 +97,11 @@ class Card {
       `
     }
     this.cardsArr.forEach((card) => {
-      let cardTemplate = /*html*/ `
+      let cardTemplate = `
       <div class="card" data-id="${card.id}">
       <textarea draggable="true" class="card-text">${card.task}</textarea>
-      ${this.generateHTML(card)}
+      <div class='card-subtasks'>${this.generateHTML(card)}</div>
+      <button class="button button-add-card-subtask">Добавить подпункт</button>
       </div>
       `
       this.cardsContainer.insertAdjacentHTML('afterbegin', cardTemplate)
@@ -123,6 +124,11 @@ class Card {
     const cardID = checkbox.closest('.card').dataset.id
     const subtaskNum = checkboxWrapper.querySelector('.card-subtask-text')
       .dataset.number
+    if (checkboxWrapper.classList.contains('active')) {
+      checkboxWrapper.classList.remove('active')
+    } else {
+      checkboxWrapper.classList.add('active')
+    }
     this.cardsArr.forEach((card) => {
       if (card.id === cardID) {
         if (checkbox.checked) {
@@ -134,6 +140,7 @@ class Card {
       }
     })
   }
+
   deleteSubtask(e) {
     const subtaskWrapper = e.target.closest('.card-subtask')
     const cardID = e.target.closest('.card').dataset.id
@@ -147,7 +154,34 @@ class Card {
     })
     subtaskWrapper.remove()
   }
+  addSubtaskArr(e) {
+    const eventCard = e.target.closest('.card')
+    const subtasks = eventCard.querySelectorAll('.card-subtask')
+    this.cardsArr.forEach((card) => {
+      if (card.id === eventCard.dataset.id) {
+        let subtasksCount = Object.keys(card).length - 2
+        card[subtasksCount + 1] = {
+          state: 'false',
+          subtaskText: '',
+        }
+        subtasks.forEach((subtask) => {
+          subtask.remove()
+        })
+        eventCard
+          .querySelector('.card-subtasks')
+          .insertAdjacentHTML('beforeend', `${this.generateHTML(card)}`)
+      }
+    })
+    localStorage.setItem('cardsArr', JSON.stringify(this.cardsArr))
+    this.addEditListeners()
+  }
 
+  subtaskGenerator() {
+    let addSubtaskBtns = document.querySelectorAll('.button-add-card-subtask')
+    addSubtaskBtns.forEach((button) => {
+      this.onListener('click', button, this.addSubtaskArr)
+    })
+  }
   addEditListeners() {
     const cards = document.querySelectorAll('.card')
     cards.forEach((card) => {
@@ -155,18 +189,20 @@ class Card {
         this.dragBreak(child)
         if (child.classList.contains('card-text')) {
           this.onListener('mousedown', child, this.edit)
-        } else if (child.classList.contains('card-subtask')) {
-          Array.from(child.children, (subtaskChild, e) => {
-            this.dragBreak(subtaskChild)
-            if (subtaskChild.classList.contains('card-subtask-text')) {
-              this.onListener('mousedown', subtaskChild, this.edit)
-            } else if (
-              subtaskChild.classList.contains('button-card-remove-subtask')
-            ) {
-              this.onListener('click', subtaskChild, this.deleteSubtask)
-            } else {
-              this.onListener('click', subtaskChild, this.checkboxes)
-            }
+        } else if (child.classList.contains('card-subtasks')) {
+          Array.from(child.children, (subtaskWrapper) => {
+            Array.from(subtaskWrapper.children, (subtaskChild, e) => {
+              this.dragBreak(subtaskChild)
+              if (subtaskChild.classList.contains('card-subtask-text')) {
+                this.onListener('mousedown', subtaskChild, this.edit)
+              } else if (
+                subtaskChild.classList.contains('button-card-remove-subtask')
+              ) {
+                this.onListener('click', subtaskChild, this.deleteSubtask)
+              } else {
+                this.onListener('click', subtaskChild, this.checkboxes)
+              }
+            })
           })
         }
       })
@@ -178,6 +214,7 @@ class Card {
   }
   dragBreak(classes) {
     classes.addEventListener('dragstart', (e) => {
+      e.preventDefault()
       e.stopPropagation()
     })
   }

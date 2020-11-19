@@ -3,6 +3,7 @@
   max-width: 1900px;
   margin: 0 auto;
   display: flex;
+  padding-bottom: 20px;
 }
 .empty-cover {
   padding: 15px;
@@ -13,13 +14,14 @@
   width: 100%;
 }
 .card {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
   margin-right: 30px;
   &:last-child {
     margin-right: 0;
   }
-  display: flex;
-  align-items: center;
-  flex-direction: column;
+  overflow-y: auto;
   border-radius: 5px;
   padding: 15px 10px 10px 10px;
   height: auto;
@@ -35,6 +37,9 @@
     overflow-y: auto;
     margin-bottom: 15px;
   }
+  &-text {
+    min-height: 42px;
+  }
   &-text,
   &-subtask-text {
     overflow-y: auto;
@@ -43,16 +48,26 @@
     background: rgba(255, 255, 255, 40%);
     resize: none;
   }
+  &-subtasks {
+    margin-bottom: 10px;
+  }
   &-subtask {
     display: flex;
     align-items: center;
     margin-bottom: 10px;
+    padding-left: 6px;
     &-text {
       max-height: 35px;
       min-height: 35px;
     }
     &:last-child {
       margin-bottom: 0;
+    }
+    &.active {
+      background: rgba(green, 50%);
+      textarea {
+        text-decoration: line-through;
+      }
     }
   }
   &-subtask-text {
