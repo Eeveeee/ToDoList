@@ -44,24 +44,35 @@ class Card {
     })
   }
 
-  create() {
+  creatorDefault(e) {
+    const card = e.target.closest('.card-creator-form')
+    const tasksContainer = card.querySelector('.card-tasks-container')
+    Array.from(tasksContainer.children).forEach((child) => {
+      if (child.classList.contains('card-creator-text')) {
+        child.value = ''
+      } else {
+        child.remove()
+      }
+    })
+  }
+
+  create(e) {
     this.currentCard = {
       id: `f${(+new Date()).toString(16)}`,
       task: `${this.formText.value}`,
     }
-
-    let subTasks = this.tasksContainer.querySelectorAll('.card-creator-subtask')
-    if (subTasks !== undefined) {
-      subTasks.forEach((subTask, index) => {
+    let subtasks = this.tasksContainer.querySelectorAll('.card-creator-subtask')
+    if (subtasks !== undefined) {
+      subtasks.forEach((subtask, index) => {
         this.currentCard[`${index + 1}`] = {
-          subtaskText: `${subTask.value}`,
+          subtaskText: `${subtask.value}`,
           state: false,
         }
       })
     }
     this.cardsArr.push(this.currentCard)
-
     localStorage.setItem('cardsArr', JSON.stringify(this.cardsArr))
+    this.creatorDefault(e)
   }
 
   generateHTML(card) {
@@ -157,10 +168,18 @@ class Card {
   addSubtaskArr(e) {
     const eventCard = e.target.closest('.card')
     const subtasks = eventCard.querySelectorAll('.card-subtask')
+    const mask = '^[0-9]{1,6}(\\.\\d{1,2})?$'
     this.cardsArr.forEach((card) => {
       if (card.id === eventCard.dataset.id) {
         let subtasksCount = Object.keys(card).length - 2
-        card[subtasksCount + 1] = {
+        Object.keys(card).forEach((key) => {
+          if (Number.isInteger(parseInt(key))) {
+            subtasksCount += parseInt(key)
+          }
+        })
+        console.log('карточка до: ', card)
+        console.log(subtasksCount + 1)
+        card[parseInt(subtasksCount) + 1] = {
           state: 'false',
           subtaskText: '',
         }
@@ -173,6 +192,7 @@ class Card {
       }
     })
     localStorage.setItem('cardsArr', JSON.stringify(this.cardsArr))
+    console.log('карточки после: ', this.cardsArr)
     this.addEditListeners()
   }
 

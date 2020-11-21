@@ -29,7 +29,13 @@
     height: 35px;
     border: none;
     cursor: pointer;
+    padding: 0;
+    &:focus {
+      outline: none;
+      border: 2px solid rgba(255, 255, 255, 60%);
+    }
   }
+
   &-add {
     background: url("../img/header/plus.svg") center no-repeat;
     background-size: contain;
@@ -47,6 +53,11 @@
       background: rgba(white, 20%);
       color: white;
       margin-bottom: 10px;
+      border: 2px solid transparent;
+      &:focus {
+        outline: none;
+        border: 2px solid rgba(255, 255, 255, 60%);
+      }
     }
   }
   &-edit {

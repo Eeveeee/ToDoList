@@ -37,7 +37,7 @@ cardCreatorBtn.addEventListener('click', (e) => {
   e.preventDefault()
   modalCreator.classList.toggle('active')
   btnAdd.classList.toggle('active')
-  card.create()
+  card.create(e)
   card.render()
   dragNDrop.addListeners()
   card.addEditListeners()

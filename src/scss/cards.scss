@@ -29,6 +29,13 @@
   width: 300px;
   min-width: 300px;
   background: rgba(0, 0, 0, 40%);
+  .subtask-checkbox {
+    &:focus {
+      outline: 2px solid rgba(255, 255, 255, 60%);
+    }
+    height: 25px;
+    width: 25px;
+  }
   &-tasks-container {
     width: 100%;
     display: flex;
@@ -38,15 +45,23 @@
     margin-bottom: 15px;
   }
   &-text {
-    min-height: 42px;
+    min-height: 46px;
+    max-height: 46px;
   }
   &-text,
   &-subtask-text {
     overflow-y: auto;
     width: 90%;
+    color: white;
     margin-bottom: 15px;
-    background: rgba(255, 255, 255, 40%);
+    background: rgba(255, 255, 255, 15%);
     resize: none;
+    border-radius: 3px;
+    border: 2px solid transparent;
+    &:focus {
+      outline: none;
+      border: 2px solid rgba(255, 255, 255, 60%);
+    }
   }
   &-subtasks {
     margin-bottom: 10px;
@@ -55,7 +70,7 @@
     display: flex;
     align-items: center;
     margin-bottom: 10px;
-    padding-left: 6px;
+    padding: 3px 6px;
     &-text {
       max-height: 35px;
       min-height: 35px;
@@ -64,7 +79,7 @@
       margin-bottom: 0;
     }
     &.active {
-      background: rgba(green, 50%);
+      background: rgba(green, 40%);
       textarea {
         text-decoration: line-through;
       }
@@ -74,6 +89,9 @@
     margin-left: 5px;
     width: 90%;
     margin-bottom: 0;
+    max-height: 28px;
+    min-height: 28px;
+    border-radius: 3px;
   }
   &-creator {
     position: absolute;
