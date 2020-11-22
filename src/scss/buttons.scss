@@ -30,8 +30,7 @@
     border: none;
     cursor: pointer;
     padding: 0;
-    &:focus {
-      outline: none;
+    &:active {
       border: 2px solid rgba(255, 255, 255, 60%);
     }
   }
@@ -54,8 +53,7 @@
       color: white;
       margin-bottom: 10px;
       border: 2px solid transparent;
-      &:focus {
-        outline: none;
+      &:active {
         border: 2px solid rgba(255, 255, 255, 60%);
       }
     }

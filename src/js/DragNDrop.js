@@ -27,9 +27,9 @@ class DragNDrop {
         card.addEventListener('dragstart', this.dragStart.bind(this))
         card.addEventListener('dragend', this.dragEnd.bind(this))
       })
-      this.removeBtn.addEventListener('dragover', this.dragOver.bind(this))
-      this.removeBtn.addEventListener('dragleave', this.dragLeave.bind(this))
-      this.removeBtn.addEventListener('drop', this.dragDrop.bind(this))
+      card.onListener('drop', this.removeBtn, this.dragDrop.bind(this))
+      card.onListener('dragover', this.removeBtn, this.dragOver.bind(this))
+      card.onListener('dragleave', this.removeBtn, this.dragLeave.bind(this))
     }
   }
   dragStart(e) {

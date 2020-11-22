@@ -177,8 +177,6 @@ class Card {
             subtasksCount += parseInt(key)
           }
         })
-        console.log('карточка до: ', card)
-        console.log(subtasksCount + 1)
         card[parseInt(subtasksCount) + 1] = {
           state: 'false',
           subtaskText: '',
@@ -192,7 +190,6 @@ class Card {
       }
     })
     localStorage.setItem('cardsArr', JSON.stringify(this.cardsArr))
-    console.log('карточки после: ', this.cardsArr)
     this.addEditListeners()
   }
 
@@ -233,7 +230,7 @@ class Card {
     classes.addEventListener(listener, callback.bind(this))
   }
   dragBreak(classes) {
-    classes.addEventListener('dragstart', (e) => {
+    this.onListener('dragstart', classes, (e) => {
       e.preventDefault()
       e.stopPropagation()
     })
@@ -245,7 +242,7 @@ class Card {
     const cardID = card.dataset.id
     card.removeAttribute('draggable')
     cardItem.removeAttribute('draggable')
-    cardItem.addEventListener('keypress', () => {
+    this.onListener('input', cardItem, () => {
       this.cardsArr.forEach((card) => {
         if (`${card.id}` === cardID) {
           if (cardItem.dataset.number) {
@@ -254,9 +251,9 @@ class Card {
           } else {
             card.task = cardItem.value
           }
+          localStorage.setItem('cardsArr', JSON.stringify(this.cardsArr))
         }
       })
-      localStorage.setItem('cardsArr', JSON.stringify(this.cardsArr))
     })
   }
 }

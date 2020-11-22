@@ -22,18 +22,18 @@ dragNDrop.addListeners()
 card.addEditListeners()
 card.subtaskGenerator()
 
-btnAdd.addEventListener('click', (e) => {
+card.onListener('click', btnAdd, (e) => {
   e.preventDefault()
   modalCreator.classList.toggle('active')
   btnAdd.classList.toggle('active')
 })
 
-cardSubtaskBtn.addEventListener('click', (e) => {
+card.onListener('click', cardSubtaskBtn, (e) => {
   e.preventDefault()
   card.subtasksCreatorManager()
 })
 
-cardCreatorBtn.addEventListener('click', (e) => {
+card.onListener('click', cardCreatorBtn, (e) => {
   e.preventDefault()
   modalCreator.classList.toggle('active')
   btnAdd.classList.toggle('active')
