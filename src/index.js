@@ -22,6 +22,7 @@ card.render()
 dragNDrop.addListeners()
 card.subtaskGenerator()
 card.initListeners()
+card.deleteAllButtonState()
 
 card.onListener('click', btnAdd, (e) => {
   e.preventDefault()
@@ -34,6 +35,7 @@ clearAll.addEventListener('click', (e) => {
   `
   cardsArr.length = 0
   localStorage.setItem('cardsArr', JSON.stringify(cardsArr))
+  card.deleteAllButtonState()
 })
 card.onListener('click', cardSubtaskBtn, (e) => {
   e.preventDefault()
@@ -50,6 +52,7 @@ card.onListener('click', cardCreatorBtn, (e) => {
     dragNDrop.addListeners()
     card.subtaskGenerator()
     card.initListeners()
+    card.deleteAllButtonState()
   } else {
     alert('Введите основную задачу!')
   }

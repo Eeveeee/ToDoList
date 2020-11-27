@@ -11,6 +11,7 @@ class DragNDrop {
     this.cardsArr = cardsArr
     this.removeBtn = removeBtn
   }
+
   setDrag(e) {
     e.target.setAttribute('draggable', true)
   }

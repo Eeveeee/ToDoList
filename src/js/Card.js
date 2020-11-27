@@ -13,7 +13,13 @@ class Card {
     this.formText = formText
     this.tasksContainer = tasksContainer
   }
-
+  deleteAllButtonState() {
+    if (this.cardsArr.length) {
+      document.querySelector('.button-clear-all').style.display = 'block'
+    } else {
+      document.querySelector('.button-clear-all').style.display = 'none'
+    }
+  }
   subtasksCreatorManager() {
     this.tasksContainer.insertAdjacentHTML(
       'beforeend',
@@ -130,6 +136,7 @@ class Card {
       if (`${card.id}` === takenCard?.dataset.id) {
         this.cardsArr.splice(index, 1)
         localStorage.setItem('cardsArr', JSON.stringify(this.cardsArr))
+        this.deleteAllButtonState()
         this.cardsContainer.innerHTML = `<div class="empty-cover">Создайте карточку!</div>`
       }
     })
