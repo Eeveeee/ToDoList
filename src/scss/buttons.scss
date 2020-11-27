@@ -6,13 +6,22 @@
     max-height: 100%;
     max-width: 100%;
   }
-  &-create {
+  &-create,
+  &-clear-all {
     border-radius: 3px;
     padding: 10px 30px;
     width: auto;
     height: auto;
     background: rgba(white, 20%);
     color: white;
+  }
+  &-clear-all {
+    position: absolute;
+    top: 20px;
+    right: 150px;
+    color: red;
+    font-weight: 700;
+    padding: 8px 25px;
   }
   &-remove {
     background: url("../img/header/trash.svg") center no-repeat;
@@ -47,8 +56,8 @@
     &-card-subtask {
       border-radius: 3px;
       padding: 6px 10px;
-      width: auto;
-      height: auto;
+      width: 166px;
+      height: 34px;
       background: rgba(white, 20%);
       color: white;
       margin-bottom: 10px;

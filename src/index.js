@@ -4,6 +4,7 @@ import dragNDrop from './js/DragNDrop.js'
 
 const btnAdd = document.querySelector('.button-add')
 const modalCreator = document.querySelector('.modal-creator')
+const clearAll = document.querySelector('.button-clear-all')
 
 const cardCreatorForm = document.querySelector('.card-creator-form'),
   cardCreatorName = document.querySelector('.card-creator-name'),
@@ -19,15 +20,21 @@ dragNDrop.init(cardsContainer, cardsArr, removeBtn)
 
 card.render()
 dragNDrop.addListeners()
-card.addEditListeners()
 card.subtaskGenerator()
+card.initListeners()
 
 card.onListener('click', btnAdd, (e) => {
   e.preventDefault()
   modalCreator.classList.toggle('active')
   btnAdd.classList.toggle('active')
 })
-
+clearAll.addEventListener('click', (e) => {
+  e.preventDefault()
+  cardsContainer.innerHTML = `<div class="empty-cover">Создайте карточку!</div>
+  `
+  cardsArr.length = 0
+  localStorage.setItem('cardsArr', JSON.stringify(cardsArr))
+})
 card.onListener('click', cardSubtaskBtn, (e) => {
   e.preventDefault()
   card.subtasksCreatorManager()
@@ -35,11 +42,15 @@ card.onListener('click', cardSubtaskBtn, (e) => {
 
 card.onListener('click', cardCreatorBtn, (e) => {
   e.preventDefault()
-  modalCreator.classList.toggle('active')
-  btnAdd.classList.toggle('active')
-  card.create(e)
-  card.render()
-  dragNDrop.addListeners()
-  card.addEditListeners()
-  card.subtaskGenerator()
+  if (cardCreatorText.textContent) {
+    card.create(e)
+    modalCreator.classList.toggle('active')
+    btnAdd.classList.toggle('active')
+    card.render()
+    dragNDrop.addListeners()
+    card.subtaskGenerator()
+    card.initListeners()
+  } else {
+    alert('Введите основную задачу!')
+  }
 })
