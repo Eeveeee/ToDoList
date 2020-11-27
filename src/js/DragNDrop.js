@@ -60,8 +60,8 @@ class DragNDrop {
     card.delete(this.takenCard)
     card.render()
     this.addListeners()
-    card.addEditListeners()
     card.subtaskGenerator()
+    card.initListeners()
   }
 }
 const dragNDrop = new DragNDrop()
